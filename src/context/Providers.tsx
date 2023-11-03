@@ -8,7 +8,14 @@ const Providers = ({ children }: PropsWithChildren) => {
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() =>
     trpc.createClient({
-      links: [httpBatchLink({ url: "http://localhost:3000/api/trpc" })],
+      links: [
+        httpBatchLink({
+          url:
+            process.env.NODE_ENV === "production"
+              ? "https://quill-ebon.vercel.app//api/trpc"
+              : "http://localhost:3000/api/trpc",
+        }),
+      ],
     })
   );
 
